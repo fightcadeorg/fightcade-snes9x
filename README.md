@@ -1,2 +1,6 @@
-# fightcade-snes9x
-Fightcade SNES9X emulator
+#Fightcade-snes9x
+================
+
+Fightcade emulator built with Snes9x and GGPO.
+
+https://www.fightcade.com

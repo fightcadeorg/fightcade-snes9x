@@ -458,7 +458,7 @@ void S9xSetWinPixelFormat();
 //int CheckKey( WORD Key, int OldJoypad);
 //void TranslateKey(WORD keyz,char *out);
 
-#define S9X_CONF_FILE_NAME "snes9x.conf"
+#define S9X_CONF_FILE_NAME "fcadesnes9x.conf"
 
 const char* GetFilterName(RenderFilter filterID);
 int GetFilterScale(RenderFilter filterID);

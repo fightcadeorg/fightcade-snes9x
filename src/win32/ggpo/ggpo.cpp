@@ -256,7 +256,7 @@ void QuarkInit(const TCHAR *tconnect)
 	WSADATA wsaData;
 	WSAStartup(MAKEWORD(2, 2), &wsaData);
 
-	QuarkTogglePerfMon();
+	//QuarkTogglePerfMon();
 
   ggpo_init();
 

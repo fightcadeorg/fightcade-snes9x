@@ -353,7 +353,7 @@ void S9xUsage (void)
 	/*                               12345678901234567890123456789012345678901234567890123456789012345678901234567890 */
 
 	S9xMessage(S9X_INFO, S9X_USAGE, "");
-	S9xMessage(S9X_INFO, S9X_USAGE, "fcadesnes9x " VERSION);
+	S9xMessage(S9X_INFO, S9X_USAGE, "fcadesnes9x " VERSION "-" FCVERSION);
 	S9xMessage(S9X_INFO, S9X_USAGE, "");
 	S9xMessage(S9X_INFO, S9X_USAGE, "usage: fcadesnes9x [options] <ROM image filename>");
 	S9xMessage(S9X_INFO, S9X_USAGE, "");

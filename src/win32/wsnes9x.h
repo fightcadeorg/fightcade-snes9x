@@ -134,11 +134,7 @@ struct sGUI {
     HMENU hMenu;
     HINSTANCE hInstance;
 
-    DWORD hFrameTimer;
     DWORD hHotkeyTimer;
-    HANDLE ClientSemaphore;
-    HANDLE FrameTimerSemaphore;
-    HANDLE ServerTimerSemaphore;
 
     BYTE Language;
 

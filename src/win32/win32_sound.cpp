@@ -8,7 +8,7 @@
 #include "../snes9x.h"
 #include "../apu/apu.h"
 #include "wsnes9x.h"
-#include "CXAudio2.h"
+//#include "CXAudio2.h"
 #include "CWaveOut.h"
 #include "win32_sound.h"
 #include "win32_display.h"
@@ -16,11 +16,11 @@
 #define CLAMP(x, low, high) (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
 
 // available sound output methods
-CXAudio2 S9xXAudio2;
+//CXAudio2 S9xXAudio2;
 CWaveOut S9xWaveOut;
 
 // Interface used to access the sound output
-IS9xSoundOutput *S9xSoundOutput = &S9xXAudio2;
+IS9xSoundOutput *S9xSoundOutput = &S9xWaveOut;
 
 static double last_volume = 1.0;
 
@@ -77,7 +77,7 @@ bool8 S9xOpenSoundDevice ()
 			S9xSoundOutput = &S9xWaveOut;
 			break;
 		case WIN_XAUDIO2_SOUND_DRIVER:
-			S9xSoundOutput = &S9xXAudio2;
+			//S9xSoundOutput = &S9xXAudio2;
 			break;
 		default:	// we default to WaveOut
 			GUI.SoundDriver = WIN_WAVEOUT_DRIVER;

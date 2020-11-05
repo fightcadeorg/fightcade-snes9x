@@ -9,7 +9,7 @@
 
 #ifndef VERSION
 #define VERSION	"1.60"
-#define FCVERSION	"1"
+#define FCVERSION	"2"
 #endif
 
 #include "port.h"

@@ -82,7 +82,7 @@ bool CDirect3D::Initialize(HWND hWnd)
 	if(init_done)
 		return true;
 
-	pD3D = Direct3DCreate9(D3D_SDK_VERSION);
+	Direct3DCreate9Ex(D3D_SDK_VERSION, &pD3D);
 	if(pD3D == NULL) {
 		DXTRACE_ERR_MSGBOX(TEXT("Error creating initial D3D9 object"), 0);
 		return false;
@@ -90,23 +90,25 @@ bool CDirect3D::Initialize(HWND hWnd)
 
 	memset(&dPresentParams, 0, sizeof(dPresentParams));
 	dPresentParams.hDeviceWindow = hWnd;
-    dPresentParams.Windowed = true;
-	dPresentParams.BackBufferCount = GUI.DoubleBuffered?2:1;
-    dPresentParams.SwapEffect = D3DSWAPEFFECT_DISCARD;
+	dPresentParams.BackBufferCount = GUI.DoubleBuffered ? 2 : 1;
 	dPresentParams.BackBufferFormat = D3DFMT_UNKNOWN;
+	dPresentParams.PresentationInterval = GUI.Vsync ? D3DPRESENT_INTERVAL_DEFAULT : D3DPRESENT_INTERVAL_IMMEDIATE;
+  dPresentParams.SwapEffect = GUI.Vsync ? D3DSWAPEFFECT_COPY : D3DSWAPEFFECT_FLIPEX;
+	dPresentParams.Windowed = true;
 
-	HRESULT hr = pD3D->CreateDevice(D3DADAPTER_DEFAULT,
+	HRESULT hr = pD3D->CreateDeviceEx(D3DADAPTER_DEFAULT,
                       D3DDEVTYPE_HAL,
                       hWnd,
                       D3DCREATE_MIXED_VERTEXPROCESSING,
-					  &dPresentParams,
+											&dPresentParams,
+											NULL,
                       &pDevice);
 	if(FAILED(hr)) {
 		DXTRACE_ERR_MSGBOX(TEXT("Error creating D3D9 device"), hr);
 		return false;
 	}
 
-	hr = pDevice->CreateVertexBuffer(sizeof(vertexStream),D3DUSAGE_WRITEONLY,0,D3DPOOL_MANAGED,&vertexBuffer,NULL);
+	hr = pDevice->CreateVertexBuffer(sizeof(vertexStream),D3DUSAGE_WRITEONLY,0,D3DPOOL_DEFAULT,&vertexBuffer,NULL);
 	if(FAILED(hr)) {
 		DXTRACE_ERR_MSGBOX(TEXT("Error creating vertex buffer"), hr);
 		return false;
@@ -373,11 +375,11 @@ void CDirect3D::CreateDrawSurface()
 		hr = pDevice->CreateTexture(
 			quadTextureSize, quadTextureSize,
 			1, // 1 level, no mipmaps
-			0, // dynamic textures can be locked
+			D3DUSAGE_DYNAMIC, // dynamic textures can be locked
 			D3DFMT_R5G6B5,
-			D3DPOOL_MANAGED,
+			D3DPOOL_DEFAULT,
 			&drawSurface,
-			NULL );
+			NULL);
 
 		if(FAILED(hr)) {
 			DXTRACE_ERR_MSGBOX(TEXT("Error while creating texture"), hr);
@@ -535,19 +537,17 @@ bool CDirect3D::ResetDevice()
 	}
 
 	//zero or unknown values result in the current window size/display settings
-	dPresentParams.BackBufferWidth = 0;
-	dPresentParams.BackBufferHeight = 0;
-	dPresentParams.BackBufferCount = GUI.DoubleBuffered?2:1;
+	dPresentParams.BackBufferCount = GUI.DoubleBuffered ? 2 : 1;
 	dPresentParams.BackBufferFormat = D3DFMT_UNKNOWN;
+	dPresentParams.PresentationInterval = GUI.Vsync ? D3DPRESENT_INTERVAL_ONE : D3DPRESENT_INTERVAL_IMMEDIATE;
+	dPresentParams.SwapEffect = GUI.Vsync ? D3DSWAPEFFECT_COPY : D3DSWAPEFFECT_FLIPEX;
 	dPresentParams.FullScreen_RefreshRateInHz = 0;
 	dPresentParams.Windowed = true;
-	dPresentParams.PresentationInterval = GUI.Vsync?D3DPRESENT_INTERVAL_ONE:D3DPRESENT_INTERVAL_IMMEDIATE;
-	dPresentParams.Flags = D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
+	//dPresentParams.Flags = D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
 
 	if(fullscreen) {
 		dPresentParams.BackBufferWidth = GUI.FullscreenMode.width;
 		dPresentParams.BackBufferHeight = GUI.FullscreenMode.height;
-		dPresentParams.BackBufferCount = GUI.DoubleBuffered?2:1;
 		dPresentParams.Windowed = false;
 		if(GUI.FullscreenMode.depth == 32)
 			dPresentParams.BackBufferFormat = D3DFMT_X8R8G8B8;
@@ -556,7 +556,8 @@ bool CDirect3D::ResetDevice()
 		dPresentParams.FullScreen_RefreshRateInHz = GUI.FullscreenMode.rate;
 	}
 
-	if(FAILED(hr = pDevice->Reset(&dPresentParams))) {
+	hr = pDevice->ResetEx(&dPresentParams, NULL);
+	if(FAILED(hr)) {
 		DXTRACE_ERR(TEXT("Unable to reset device"), hr);
 		return false;
 	}

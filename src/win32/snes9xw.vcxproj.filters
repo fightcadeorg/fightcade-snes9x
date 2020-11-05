@@ -99,9 +99,6 @@
     <ClInclude Include="wsnes9x.h">
       <Filter>GUI</Filter>
     </ClInclude>
-    <ClInclude Include="CXAudio2.h">
-      <Filter>GUI\SoundDriver</Filter>
-    </ClInclude>
     <ClInclude Include="IS9xSoundOutput.h">
       <Filter>GUI\SoundDriver</Filter>
     </ClInclude>
@@ -490,9 +487,6 @@
     </ClCompile>
     <ClCompile Include="wsnes9x.cpp">
       <Filter>GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="CXAudio2.cpp">
-      <Filter>GUI\SoundDriver</Filter>
     </ClCompile>
     <ClCompile Include="CCGShader.cpp">
       <Filter>GUI\VideoDriver</Filter>

@@ -3982,7 +3982,6 @@ static void ResetFrameTimer()
 {
 	// determines if we can do sound sync
 	GUI.AllowSoundSync = Settings.PAL ? Settings.FrameTime == Settings.FrameTimePAL : Settings.FrameTime == Settings.FrameTimeNTSC;
-	GUI.AllowSoundSync = GUI.AllowSoundSync && !kNetGame && !kNetSpectator;
 	nFrameLast = timeGetTime();
 }
 

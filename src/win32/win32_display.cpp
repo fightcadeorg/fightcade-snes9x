@@ -80,7 +80,11 @@ repeats the last rendered frame
 */
 void WinRefreshDisplay(void)
 {
-	if(!Src.Width)
+	extern bool bNetRollback;
+	if (bNetRollback)
+		return;
+
+	if (!Src.Width)
 		return;
 
 	CheckOverscanOffset();

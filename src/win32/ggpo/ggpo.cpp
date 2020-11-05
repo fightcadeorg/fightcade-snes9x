@@ -9,6 +9,7 @@
 
 GGPOSession *ggpo = NULL;
 bool bSkipPerfmonUpdates = false;
+bool bNetRollback = false;
 
 bool ProcessFrame();
 bool ProcessFrameDelay(int delay);
@@ -153,7 +154,9 @@ bool __cdecl ggpo_begin_game_callback(char *name)
 bool __cdecl ggpo_advance_frame_callback(int flags)
 {
   bSkipPerfmonUpdates = true;
+	bNetRollback = true;
 	ProcessFrame();
+	bNetRollback = false;
 	bSkipPerfmonUpdates = false;
   return true;
 }
@@ -256,7 +259,7 @@ void QuarkInit(const TCHAR *tconnect)
 	WSADATA wsaData;
 	WSAStartup(MAKEWORD(2, 2), &wsaData);
 
-	//QuarkTogglePerfMon();
+	QuarkTogglePerfMon();
 
   ggpo_init();
 

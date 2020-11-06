@@ -3227,7 +3227,7 @@ bool ProcessFrame(void)
 {
 	if (ProcessInput())
 	{
-		if (GUI.rewindBufferSize
+		if (GUI.rewindBufferSize && !kNetGame && !kNetSpectator
 #ifdef NETPLAY_SUPPORT
 			&& !Settings.NetPlay
 #endif

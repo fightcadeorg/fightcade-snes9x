@@ -206,6 +206,10 @@ void S9xStartScreenRefresh (void)
 
 void S9xEndScreenRefresh (void)
 {
+	extern bool bNetRollback;
+	if (bNetRollback)
+		return;
+
 	if (IPPU.RenderThisFrame)
 	{
 		FLUSH_REDRAW();

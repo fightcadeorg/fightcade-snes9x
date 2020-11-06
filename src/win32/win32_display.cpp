@@ -80,10 +80,6 @@ repeats the last rendered frame
 */
 void WinRefreshDisplay(void)
 {
-	extern bool bNetRollback;
-	if (bNetRollback)
-		return;
-
 	if (!Src.Width)
 		return;
 
@@ -253,9 +249,9 @@ bool8 S9xContinueUpdate(int Width, int Height)
 // do the actual rendering of a frame
 bool8 S9xDeinitUpdate (int Width, int Height)
 {
-    Src.Width = Width;
+	Src.Width = Width;
 	Src.Height = Height;
-    Src.Pitch = GFX.Pitch;
+	Src.Pitch = GFX.Pitch;
 
 	CheckOverscanOffset();
 
@@ -311,7 +307,7 @@ bool8 S9xDeinitUpdate (int Width, int Height)
         WinRefreshDisplay();
     }
 
-    return (true);
+    return true;
 }
 
 /*  S9xSetWinPixelFormat
